@@ -1,0 +1,30 @@
+<h2 class="content-subhead">Search</h2>
+
+<form action="/search" method="get">
+  <input name="query" value="<%= params[:query] %>">
+  <button type="submit">Search</button>
+</form>
+<% if params[:query] %>
+  <% if @filtered_contents.empty? %>
+    <%= "Sorry, no matches were found." %>
+  <% else %>
+    <h2 class = "content-subhead"><%= "Results for '#{params[:query]}'" %></h2>
+
+    <ul>
+      <% @filtered_contents.each_pair do |num, title| %>
+        <li class="pure-menu-item">
+          <a href="/chapters/<%= num %>" class="pure-menu-link"><%= title %></a>
+            <ul>
+              <% @filtered_lines[title].each_pair do |idx, line| %>
+                <li>
+                  <a href="/chapters/<%= num %>#<%= idx %>">
+                    <%= line %>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
